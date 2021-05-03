@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/27 15:21:01 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/03 12:21:26 by ahorling      ########   odam.nl         */
+/*   Updated: 2021/05/03 15:47:54 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ size_t	ft_strlcpy(char *dest, const char *src, size_t size)
 	return (srclen);
 }
 
-char	*ft_fill_empty(char *src, size_t length)
+char	*ft_fill_empty(char const *src, size_t length)
 {
 	char	*str;
 
 	length++;
-	str = (char *)malloc(length)(sizeof(char));
+	str = (char *)malloc(length * (sizeof(char)));
 	if (!str)
 		return (NULL);
 	ft_strlcpy(str, src, length);
@@ -85,20 +85,16 @@ char	*ft_buffer_add(char const *s1, char const *s2)
 	j = 0;
 	if (s1 == NULL && s2 == NULL)
 		return (NULL);
-	if (s1 == NULL)
+	if (!s1)
 		return (ft_fill_empty(s2, ft_strlen(s2)));
-	fullstr = (char *)malloc(ft_strlen(s1) + ft_strlen(s2));
+	fullstr = (char *)malloc((ft_strlen(s1) + ft_strlen(s2)) * sizeof(char));
 	if (fullstr == NULL)
 		return (NULL);
-	while (s1[i] != '\0')
+	else
 	{
-		fullstr[i] = s1[i];
-		i++;
+		ft_strlcpy(fullstr, s1, ft_strlen(s1) + 1);
+		ft_strlcpy(fullstr + ft_strlen(s1), s2, ft_strlen(s2) + 1);
 	}
-	while (s2[j] != '\0')
-	{
-		fullstr[i + j] = s2[j];
-		j++;
-	}
+	free ((char *)s1);
 	return (fullstr);
 }

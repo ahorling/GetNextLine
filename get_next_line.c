@@ -6,9 +6,11 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/27 13:10:23 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/03 12:20:48 by ahorling      ########   odam.nl         */
+/*   Updated: 2021/05/03 15:12:20 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "get_next_line.h"
 
 /* Check if the buffer has a newline character in it*/
 static int	find_newline(char *buffer)
@@ -16,13 +18,14 @@ static int	find_newline(char *buffer)
 	size_t	i;
 
 	i = 0;
-	if (!buffer)
-		return (-1);
-	while (buffer[i] != '\0')
+	if (buffer)
 	{
-		if (buffer == '\n')
-			return (1);
-		i++;
+		while (buffer[i])
+		{
+			if (buffer[i] == '\n')
+				return (1);
+			i++;
+		}
 	}
 	return (0);
 }
@@ -39,7 +42,7 @@ static char	*clean_buffer(char *buffer)
 		i++;
 	if (buffer[i] == '\0')
 		i++;
-	ft_strlcpy(buffer, buffer[i], i + 1);
+	ft_strlcpy(buffer, buffer + i, i + 1);
 	return (buffer);
 }
 
@@ -63,11 +66,12 @@ static char	*pull_line(char *buffer)
 	}
 	j = i;
 	i = 0;
-	while (i <= j)
+	while (i < j)
 	{
 		str[i] = buffer[i];
 		i++;
 	}
+	buffer[i] = '\0';
 	return (str);
 }
 
@@ -78,10 +82,9 @@ static int	fill_buffer(char **buffer, int fd)
 	int		output;
 	char	filling[BUFFER_SIZE + 1];
 
-	output = 1;
-	while (!find_newline(*buffer))
+	while (!find_newline(*buffer) && output)
 	{
-		output = read(fd, filling, BUFFER_SIZE);
+ 		output = read(fd, filling, BUFFER_SIZE);
 		if (output < 0)
 		{
 			if (*buffer)
