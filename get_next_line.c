@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/04 14:22:06 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/10 16:33:05 by ahorling      ########   odam.nl         */
+/*   Updated: 2021/05/10 17:24:18 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	fill_buffer(int fd, char **buffer)
 	char	filler[BUFFER_SIZE + 1];
 
 	file = 1;
- 	while (contains_newline(*buffer) == 0 && file != 0)
+ 	while (contains_newline(*buffer) == 0 && file > 0)
 	{
 		file = read(fd, filler, BUFFER_SIZE);
 		if (file < 0)
@@ -81,8 +81,10 @@ static char	*edit_buffer(char *buffer)
 	i = 0;
 	while (buffer[i] != '\n' && buffer[i] != '\0')
 		i++;
-	i++;
-	new_buffer = ft_strdup(buffer + i);
+	if (buffer[i] == '\0')
+		return (buffer);
+	else
+		new_buffer = ft_strdup(buffer + i + 1);
 	if (!new_buffer)
 		return (NULL);
 	return (new_buffer);
@@ -121,7 +123,16 @@ it then allocates memory equal to the number of characters before the
 newline + 1 for the null-terminator. 'pull_line' then copies the contents
 from the buffer to the newly-allocated line, stopping at a newline
 and ending the string with a null-terminator.
-Once finished, the created line is returned.*/
+Once finished, the created line is returned.
+
+Once the line string has been created, the 'edit_buffer' function goes
+through the buffer in order to find the location of the newline.
+Once it has, it edits the buffer by creating a new one starting
+at the position after the newline and copying the rest of the
+existing buffer over to the new one.
+
+Finally there is a check to see if the function has reached EOF, and
+if so the remaining buffer is freed before returning 0.*/
 
 
 int	get_next_line(int fd, char **line)
