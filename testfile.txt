@@ -1,6 +1,3 @@
 Hello there.
-Ahh,
-General Kenobi!
-You are a
-bold
-one.
+Ahh, General Kenobi! 
+You are a bold one.

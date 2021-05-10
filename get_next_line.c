@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   get_next_line3.c                                   :+:    :+:            */
+/*   get_next_line.c                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/04 14:22:06 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/04 17:37:33 by ahorling      ########   odam.nl         */
+/*   Updated: 2021/05/10 16:33:05 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,13 @@ static int	fill_buffer(int fd, char **buffer)
 		file = read(fd, filler, BUFFER_SIZE);
 		if (file < 0)
 			return (-1);
-		*buffer = add_to_buffer(*buffer, filler, file);
+		filler[file] = '\0';
+		*buffer = add_to_buffer(*buffer, filler);
 		if (!buffer)
+		{
+			free(buffer);
 			return (-1);
+		}
 	}
 	if (file > 0)
 		file = 1;
@@ -56,7 +60,7 @@ static char	*pull_line(char *buffer)
 	i = 0;
 	while (buffer[i] != '\n' && buffer[i] != '\0')
 		i++;
-	line = (char *)malloc((i) * sizeof(char));
+	line = (char *)malloc((i + 1) * sizeof(char));
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -74,6 +78,7 @@ static char	*edit_buffer(char *buffer)
 	size_t	i;
 	char	*new_buffer;
 
+	i = 0;
 	while (buffer[i] != '\n' && buffer[i] != '\0')
 		i++;
 	i++;
@@ -82,6 +87,42 @@ static char	*edit_buffer(char *buffer)
 		return (NULL);
 	return (new_buffer);
 }
+
+/*Function get_next_line should go through a file and return what is read,
+up until a newline. once called again it should remember where it left
+off and return another line, so when called in a loop it shold return the entire file
+line by line. This is done by using a static string (buffer) which is filled, pulled from
+and then adjusted by multiple functions.
+
+First we create the static string 'buffer' and check for a number of errors such as
+not having a BUFFER_SIZE to make sure the conditions are correct.
+
+Then we call the fill_buffer function to begin filling our static string
+from the file. fill_buffer then calls another function 'contains_newline'
+to check if there is a newline among the characters currently in the buffer.
+As the buffer is empty currently, there can not be, and fill_buffer reads from the file.
+The read text is placed into a 'filler' string, which is the size of the designated BUFFER_SIZE.
+The filler and the static buffer are then passed to another function 'add_to_buffer'
+
+add_to_buffer checks to see if the buffer is empty or not. If it is, it
+simply duplicates the filler into a new buffer and returns that.
+If not, it joins the old buffer and the filler together and returns that.
+
+now that the buffer string has been filled, fill_buffer makes sure
+memory allocation was successful, before once again checking if the buffer
+contains a newline via 'contains_newline', repeating the process until
+either buffer has a newline character, or EOF is reached. fill_buffer
+then returns either a 1 on a found newline, or 0 on EOF.
+
+GNL checks the return value of fill_buffer for errors, before calling
+the 'pull_line' function. 'pull_line' goes through the buffer until either
+a newline is found, or the buffer comes to an end (representing EOF).
+it then allocates memory equal to the number of characters before the
+newline + 1 for the null-terminator. 'pull_line' then copies the contents
+from the buffer to the newly-allocated line, stopping at a newline
+and ending the string with a null-terminator.
+Once finished, the created line is returned.*/
+
 
 int	get_next_line(int fd, char **line)
 {

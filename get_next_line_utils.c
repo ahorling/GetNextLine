@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   get_next_line_utils2.c                             :+:    :+:            */
+/*   get_next_line_utils.c                              :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/27 15:21:01 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/04 17:27:13 by ahorling      ########   odam.nl         */
+/*   Updated: 2021/05/10 13:35:24 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,13 @@ char	*ft_strjoin(char const *s1, char const *s2)
 }
 
 
-char	*add_to_buffer(char *buffer, char *filler, size_t filler_length)
+char	*add_to_buffer(char *buffer, char *filler)
 {
 	char	*new_buffer;
 
 	if (!buffer && !filler)
 		return (NULL);
-	if (!buffer)
+	if (buffer == NULL)
 		return (ft_strdup(filler));
 	else
 		new_buffer = ft_strjoin(buffer, filler);

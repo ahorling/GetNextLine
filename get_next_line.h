@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/27 13:28:52 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/04 17:25:54 by ahorling      ########   odam.nl         */
+/*   Updated: 2021/05/10 11:10:06 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 int		get_next_line(int fd, char **line);
 size_t	ft_strlen(const char *str);
 size_t	ft_strlcpy(char *dest, const char *source, size_t size);
-char	*add_to_buffer(char *buffer, char *filler, size_t filler_length);
+char	*add_to_buffer(char *buffer, char *filler);
 char	*ft_strdup(const char *str);
 char	*ft_strjoin(char const *s1, char const *s2);
 
