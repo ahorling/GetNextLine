@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/27 13:27:56 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/10 12:34:34 by ahorling      ########   odam.nl         */
+/*   Updated: 2021/05/11 12:27:39 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ int	main()
 			break;
 		}
 		printf("%i: %s\n", count, text);
-		free(text);
 		count++;
 	}
 	close(fd);

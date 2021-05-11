@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/04 14:22:06 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/10 17:24:18 by ahorling      ########   odam.nl         */
+/*   Updated: 2021/05/11 14:30:42 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static char	*pull_line(char *buffer)
 	if (!line)
 		return (NULL);
 	i = 0;
-	while (buffer[i] != '\n')
+	while (buffer[i] != '\n' && buffer[i] != '\0')
 	{
 		line[i] = buffer[i];
 		i++;
@@ -77,15 +77,14 @@ static char	*edit_buffer(char *buffer)
 {
 	size_t	i;
 	char	*new_buffer;
-
+	
 	i = 0;
 	while (buffer[i] != '\n' && buffer[i] != '\0')
 		i++;
-	if (buffer[i] == '\0')
-		return (buffer);
-	else
-		new_buffer = ft_strdup(buffer + i + 1);
-	if (!new_buffer)
+	if (buffer[i] != '\0')
+		i++;
+	new_buffer = ft_strdup(buffer + i);
+	if (!buffer)
 		return (NULL);
 	return (new_buffer);
 }
@@ -127,9 +126,9 @@ Once finished, the created line is returned.
 
 Once the line string has been created, the 'edit_buffer' function goes
 through the buffer in order to find the location of the newline.
-Once it has, it edits the buffer by creating a new one starting
+Once it has, it edits the buffer by copying over itself, starting
 at the position after the newline and copying the rest of the
-existing buffer over to the new one.
+existing buffer over the old one.
 
 Finally there is a check to see if the function has reached EOF, and
 if so the remaining buffer is freed before returning 0.*/
@@ -149,7 +148,7 @@ int	get_next_line(int fd, char **line)
 	if (!line)
 		return (-1);
 	buffer = edit_buffer(buffer);
-	if (buffer == '\0' && return_value == 0)
+ 	if (*buffer == '\0' && return_value == 0)
 	{
 		free(buffer);
 		return (0);
