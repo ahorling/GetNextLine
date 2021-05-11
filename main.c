@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/27 13:27:56 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/11 12:27:39 by ahorling      ########   odam.nl         */
+/*   Updated: 2021/05/11 17:20:44 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main()
 
 	return_value = 1;
 	count = 1;
-	fd = open("testfile.txt", O_RDONLY);
+	fd = open("empty", O_RDONLY);
 	if (fd < 0)
 	{
 		printf("Something went wrong with opening the file\n");
@@ -49,6 +49,7 @@ int	main()
 		}
 		printf("%i: %s\n", count, text);
 		count++;
+		free(text);
 	}
 	close(fd);
 	return (0);
