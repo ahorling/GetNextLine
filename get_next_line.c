@@ -6,9 +6,61 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/04 14:22:06 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/17 13:07:39 by ahorling      ########   odam.nl         */
+/*   Updated: 2021/05/17 13:22:39 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+Function get_next_line should go through a file and return what is read,
+up until a newline. once called again it should remember where it left
+off and return another line, so when called in a loop
+it shold return the entire file line by line. 
+This is done by using a static string (buffer) which is filled, pulled from
+and then adjusted by multiple functions.
+
+First we create the static string 'buffer'
+and check for a number of errors such as
+not having a BUFFER_SIZE to make sure the conditions are correct.
+
+Then we call the fill_buffer function to begin filling our static string
+from the file. fill_buffer then calls another function 'contains_newline'
+to check if there is a newline among the 
+characters currently in the buffer.
+As the buffer is empty currently, there can not be a new line
+so fill_buffer reads from the file.
+The read text is placed into a 'filler' string,
+which is the size of the designated BUFFER_SIZE + 1.
+The filler and the static buffer are then 
+passed to another function 'add_to_buffer'
+
+add_to_buffer checks to see if the buffer is empty or not. If it is, it
+simply duplicates the filler into a new buffer and returns that.
+If not, it joins the old buffer and the filler together and returns that.
+
+now that the buffer string has been filled, fill_buffer makes sure
+memory allocation was successful, before once again checking if the buffer
+contains a newline via 'contains_newline', repeating the process until
+either buffer has a newline character, or EOF is reached. fill_buffer
+then returns either a 1 on a found newline, or 0 on EOF.
+
+GNL checks the return value of fill_buffer for errors, before calling
+the 'pull_line' function. 'pull_line' goes through the buffer until either
+a newline is found, or the buffer comes to an end (representing EOF).
+it then allocates memory equal to the number of characters before the
+newline + 1 for the null-terminator. 'pull_line' then copies the contents
+from the buffer to the newly-allocated line, stopping at a newline
+and ending the string with a null-terminator.
+Once finished, the created line is returned.
+
+Once the line string has been created, the 'edit_buffer' function goes
+through the buffer in order to find the location of the newline.
+Once it has, it edits the buffer by copying over itself, starting
+at the position after the newline and copying the rest of the
+existing buffer over the old one.
+
+Finally there is a check to see if the function has reached EOF, and
+if so 0 is returned to signify that the file has ended.
+*/
 
 #include "get_next_line.h"
 
@@ -90,58 +142,6 @@ static char	*edit_buffer(char *buffer)
 	free(buffer);
 	return (new_buffer);
 }
-
-/*
-Function get_next_line should go through a file and return what is read,
-up until a newline. once called again it should remember where it left
-off and return another line, so when called in a loop
-it shold return the entire file line by line. 
-This is done by using a static string (buffer) which is filled, pulled from
-and then adjusted by multiple functions.
-
-First we create the static string 'buffer'
-and check for a number of errors such as
-not having a BUFFER_SIZE to make sure the conditions are correct.
-
-Then we call the fill_buffer function to begin filling our static string
-from the file. fill_buffer then calls another function 'contains_newline'
-to check if there is a newline among the 
-characters currently in the buffer.
-As the buffer is empty currently, there can not be a new line
-so fill_buffer reads from the file.
-The read text is placed into a 'filler' string,
-which is the size of the designated BUFFER_SIZE + 1.
-The filler and the static buffer are then 
-passed to another function 'add_to_buffer'
-
-add_to_buffer checks to see if the buffer is empty or not. If it is, it
-simply duplicates the filler into a new buffer and returns that.
-If not, it joins the old buffer and the filler together and returns that.
-
-now that the buffer string has been filled, fill_buffer makes sure
-memory allocation was successful, before once again checking if the buffer
-contains a newline via 'contains_newline', repeating the process until
-either buffer has a newline character, or EOF is reached. fill_buffer
-then returns either a 1 on a found newline, or 0 on EOF.
-
-GNL checks the return value of fill_buffer for errors, before calling
-the 'pull_line' function. 'pull_line' goes through the buffer until either
-a newline is found, or the buffer comes to an end (representing EOF).
-it then allocates memory equal to the number of characters before the
-newline + 1 for the null-terminator. 'pull_line' then copies the contents
-from the buffer to the newly-allocated line, stopping at a newline
-and ending the string with a null-terminator.
-Once finished, the created line is returned.
-
-Once the line string has been created, the 'edit_buffer' function goes
-through the buffer in order to find the location of the newline.
-Once it has, it edits the buffer by copying over itself, starting
-at the position after the newline and copying the rest of the
-existing buffer over the old one.
-
-Finally there is a check to see if the function has reached EOF, and
-if so the remaining buffer is freed before returning 0.
-*/
 
 int	get_next_line(int fd, char **line)
 {
