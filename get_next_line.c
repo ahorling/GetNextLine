@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/04 14:22:06 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/17 13:22:39 by ahorling      ########   odam.nl         */
+/*   Updated: 2021/05/17 15:27:53 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ static int	fill_buffer(int fd, char **buffer)
 		if (*buffer == NULL)
 			return (-1);
 	}
+	free(filler);
 	if (file > 0)
 		file = 1;
 	return (file);
@@ -112,10 +113,7 @@ static char	*pull_line(char *buffer)
 		i++;
 	line = (char *)malloc((i + 1) * sizeof(char));
 	if (!line)
-	{
-		free(buffer);
 		return (NULL);
-	}
 	i = 0;
 	while (buffer[i] != '\n' && buffer[i] != '\0')
 	{
@@ -157,7 +155,5 @@ int	get_next_line(int fd, char **line)
 	if (!line)
 		return (-1);
 	buffer = edit_buffer(buffer);
-	if (*buffer == '\0' && return_value == 0)
-		return (0);
-	return (1);
+	return (return_value);
 }

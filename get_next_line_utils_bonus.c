@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   get_next_line_utils.c                              :+:    :+:            */
+/*   get_next_line_utils_bonus.c                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2021/04/27 15:21:01 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/17 15:27:35 by ahorling      ########   odam.nl         */
+/*   Created: 2021/05/17 13:32:06 by ahorling      #+#    #+#                 */
+/*   Updated: 2021/05/17 14:08:12 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 size_t	ft_strlen(const char *str)
 {
