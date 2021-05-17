@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/04 14:22:06 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/11 17:28:09 by ahorling      ########   odam.nl         */
+/*   Updated: 2021/05/17 12:12:33 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static int	contains_newline(char *string)
 	size_t	i;
 
 	i = 0;
-	if (!string)
-		return ('\0');
+	if (string == NULL)
+		return (0);
 	while (string[i] != '\0')
 	{
 		if (string[i] == '\n')
@@ -150,10 +150,6 @@ int	get_next_line(int fd, char **line)
 		return (-1);
 	buffer = edit_buffer(buffer);
  	if (*buffer == '\0' && return_value == 0)
-	{
-		if (buffer)
-			free(buffer);
 		return (0);
-	}
 	return (1);
 }
