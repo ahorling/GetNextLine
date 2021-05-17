@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/04 14:22:06 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/17 15:27:53 by ahorling      ########   odam.nl         */
+/*   Updated: 2021/05/17 16:27:55 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,18 +127,22 @@ static char	*pull_line(char *buffer)
 static char	*edit_buffer(char *buffer)
 {
 	size_t	i;
-	char	*new_buffer;
+	size_t	j;
 
 	i = 0;
+	j = 0;
 	while (buffer[i] != '\n' && buffer[i] != '\0')
 		i++;
 	if (buffer[i] != '\0')
 		i++;
-	new_buffer = ft_strdup(buffer + i);
-	if (buffer == NULL)
-		return (NULL);
-	free(buffer);
-	return (new_buffer);
+	while (buffer[i] != '\0' && i < ft_strlen(buffer))
+	{
+		buffer[j] = buffer[i];
+		i++;
+		j++;
+	}
+	buffer[j] = '\0';
+	return (buffer);
 }
 
 int	get_next_line(int fd, char **line)
