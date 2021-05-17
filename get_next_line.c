@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/04 14:22:06 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/17 12:12:33 by ahorling      ########   odam.nl         */
+/*   Updated: 2021/05/17 13:07:39 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@ static int	contains_newline(char *string)
 static int	fill_buffer(int fd, char **buffer)
 {
 	int		file;
-	char	filler[BUFFER_SIZE + 1];
+	char	*filler;
 
+	filler = (char *)malloc((BUFFER_SIZE + 1) * sizeof(char));
 	file = 1;
- 	while (contains_newline(*buffer) == 0 && file > 0)
+	while (contains_newline(*buffer) == 0 && file > 0)
 	{
 		file = read(fd, filler, BUFFER_SIZE);
 		if (file < 0)
@@ -77,7 +78,7 @@ static char	*edit_buffer(char *buffer)
 {
 	size_t	i;
 	char	*new_buffer;
-	
+
 	i = 0;
 	while (buffer[i] != '\n' && buffer[i] != '\0')
 		i++;
@@ -90,21 +91,28 @@ static char	*edit_buffer(char *buffer)
 	return (new_buffer);
 }
 
-/*Function get_next_line should go through a file and return what is read,
+/*
+Function get_next_line should go through a file and return what is read,
 up until a newline. once called again it should remember where it left
-off and return another line, so when called in a loop it shold return the entire file
-line by line. This is done by using a static string (buffer) which is filled, pulled from
+off and return another line, so when called in a loop
+it shold return the entire file line by line. 
+This is done by using a static string (buffer) which is filled, pulled from
 and then adjusted by multiple functions.
 
-First we create the static string 'buffer' and check for a number of errors such as
+First we create the static string 'buffer'
+and check for a number of errors such as
 not having a BUFFER_SIZE to make sure the conditions are correct.
 
 Then we call the fill_buffer function to begin filling our static string
 from the file. fill_buffer then calls another function 'contains_newline'
-to check if there is a newline among the characters currently in the buffer.
-As the buffer is empty currently, there can not be, and fill_buffer reads from the file.
-The read text is placed into a 'filler' string, which is the size of the designated BUFFER_SIZE.
-The filler and the static buffer are then passed to another function 'add_to_buffer'
+to check if there is a newline among the 
+characters currently in the buffer.
+As the buffer is empty currently, there can not be a new line
+so fill_buffer reads from the file.
+The read text is placed into a 'filler' string,
+which is the size of the designated BUFFER_SIZE + 1.
+The filler and the static buffer are then 
+passed to another function 'add_to_buffer'
 
 add_to_buffer checks to see if the buffer is empty or not. If it is, it
 simply duplicates the filler into a new buffer and returns that.
@@ -132,24 +140,24 @@ at the position after the newline and copying the rest of the
 existing buffer over the old one.
 
 Finally there is a check to see if the function has reached EOF, and
-if so the remaining buffer is freed before returning 0.*/
-
+if so the remaining buffer is freed before returning 0.
+*/
 
 int	get_next_line(int fd, char **line)
 {
 	static char	*buffer;
 	int			return_value;
 
-	if (BUFFER_SIZE < 0 || fd < 0 || !line)
+	if (BUFFER_SIZE < 1 || fd < 0 || !line || fd > 1024)
 		return (-1);
 	return_value = fill_buffer(fd, &buffer);
- 	if (return_value == -1)
+	if (return_value == -1)
 		return (-1);
 	*line = pull_line(buffer);
 	if (!line)
 		return (-1);
 	buffer = edit_buffer(buffer);
- 	if (*buffer == '\0' && return_value == 0)
+	if (*buffer == '\0' && return_value == 0)
 		return (0);
 	return (1);
 }

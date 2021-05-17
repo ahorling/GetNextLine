@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/27 15:21:01 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/11 16:58:53 by ahorling      ########   odam.nl         */
+/*   Updated: 2021/05/17 13:08:18 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (fullstr);
 }
 
-
 char	*add_to_buffer(char *buffer, char *filler)
 {
 	char	*new_buffer;
@@ -89,5 +88,5 @@ char	*add_to_buffer(char *buffer, char *filler)
 	if (new_buffer == NULL)
 		return (NULL);
 	free((char *)buffer);
-	return (new_buffer);	
+	return (new_buffer);
 }
