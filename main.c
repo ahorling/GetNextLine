@@ -6,11 +6,12 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/27 13:27:56 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/17 11:19:09 by ahorling      ########   odam.nl         */
+/*   Updated: 2021/05/17 13:36:53 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
 static void	print_error(int fd, char **line)
 {

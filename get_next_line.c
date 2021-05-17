@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/04 14:22:06 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/17 16:27:55 by ahorling      ########   odam.nl         */
+/*   Updated: 2021/05/17 17:33:59 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ static int	fill_buffer(int fd, char **buffer)
 			return (-1);
 	}
 	free(filler);
+	filler = NULL;
 	if (file > 0)
 		file = 1;
 	return (file);
@@ -159,5 +160,10 @@ int	get_next_line(int fd, char **line)
 	if (!line)
 		return (-1);
 	buffer = edit_buffer(buffer);
+	if (return_value == 0 && buffer != NULL)
+	{
+		free(buffer);
+		buffer = NULL;
+	}
 	return (return_value);
 }
