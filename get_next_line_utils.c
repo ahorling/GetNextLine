@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/27 15:21:01 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/17 17:31:56 by ahorling      ########   odam.nl         */
+/*   Updated: 2021/05/17 17:50:19 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,6 @@ char	*add_to_buffer(char *buffer, char *filler)
 	if (new_buffer == NULL)
 		return (NULL);
 	free(buffer);
+	buffer = NULL;
 	return (new_buffer);
 }

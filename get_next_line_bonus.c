@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/17 13:25:40 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/17 14:18:40 by ahorling      ########   odam.nl         */
+/*   Updated: 2021/05/17 17:50:12 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ static int	fill_buffer(int fd, char **buffer)
 		if (*buffer == NULL)
 			return (-1);
 	}
+	free(filler);
+	filler = NULL;
 	if (file > 0)
 		file = 1;
 	return (file);
@@ -68,10 +70,7 @@ static char	*pull_line(char *buffer)
 		i++;
 	line = (char *)malloc((i + 1) * sizeof(char));
 	if (!line)
-	{
-		free(buffer);
 		return (NULL);
-	}
 	i = 0;
 	while (buffer[i] != '\n' && buffer[i] != '\0')
 	{
@@ -85,18 +84,22 @@ static char	*pull_line(char *buffer)
 static char	*edit_buffer(char *buffer)
 {
 	size_t	i;
-	char	*new_buffer;
+	size_t	j;
 
 	i = 0;
+	j = 0;
 	while (buffer[i] != '\n' && buffer[i] != '\0')
 		i++;
 	if (buffer[i] != '\0')
 		i++;
-	new_buffer = ft_strdup(buffer + i);
-	if (buffer == NULL)
-		return (NULL);
-	free(buffer);
-	return (new_buffer);
+	while (buffer[i] != '\0' && i < ft_strlen(buffer))
+	{
+		buffer[j] = buffer[i];
+		i++;
+		j++;
+	}
+	buffer[j] = '\0';
+	return (buffer);
 }
 
 int	get_next_line(int fd, char **line)
@@ -112,6 +115,10 @@ int	get_next_line(int fd, char **line)
 	*line = pull_line(buffer[fd]);
 	if (!line)
 		return (-1);
-	buffer[fd] = edit_buffer(buffer[fd]);
+	buffer = edit_buffer(buffer[fd]);
+	if (return_value == 0 && buffer != NULL)
+	{
+		free(buffer[fd]);
+		buffer[fd] = NULL;
+	}
 	return (return_value);
-}
