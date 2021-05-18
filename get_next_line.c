@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/04 14:22:06 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/18 11:06:01 by ahorling      ########   odam.nl         */
+/*   Updated: 2021/05/18 11:17:17 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,7 @@ int	get_next_line(int fd, char **line)
 		return (-1);
 	}
 	*line = pull_line(buffer);
-	if (!line)
+	if (!*line)
 		return (-1);
 	buffer = edit_buffer(buffer);
 	if (return_value == 0 && buffer != NULL)

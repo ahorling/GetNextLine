@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/17 13:25:40 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/18 10:29:29 by ahorling      ########   odam.nl         */
+/*   Updated: 2021/05/18 12:19:09 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int	get_next_line(int fd, char **line)
 	if (return_value == -1)
 		return (-1);
 	*line = pull_line(buffer[fd]);
-	if (!line)
+	if (!*line)
 		return (-1);
 	buffer[fd] = edit_buffer(buffer[fd]);
 	if (return_value == 0 && buffer[fd] != NULL)
