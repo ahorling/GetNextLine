@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/04 14:22:06 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/17 17:33:59 by ahorling      ########   odam.nl         */
+/*   Updated: 2021/05/18 11:06:01 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,11 @@ static int	fill_buffer(int fd, char **buffer)
 	{
 		file = read(fd, filler, BUFFER_SIZE);
 		if (file < 0)
+		{
+			free(filler);
+			filler = NULL;
 			return (-1);
+		}
 		filler[file] = '\0';
 		*buffer = add_to_buffer(*buffer, filler);
 		if (*buffer == NULL)
@@ -155,7 +159,10 @@ int	get_next_line(int fd, char **line)
 		return (-1);
 	return_value = fill_buffer(fd, &buffer);
 	if (return_value == -1)
+	{
+		*line = NULL;
 		return (-1);
+	}
 	*line = pull_line(buffer);
 	if (!line)
 		return (-1);
