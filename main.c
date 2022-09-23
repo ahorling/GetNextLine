@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/04/27 13:27:56 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/17 13:36:53 by ahorling      ########   odam.nl         */
+/*   Updated: 2022/09/23 16:50:16 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main()
 
 	return_value = 1;
 	count = 1;
-	fd = open("tests/64bit_paragraph.txt", O_RDONLY);
+	fd = open("Shrek", O_RDONLY);
 	if (fd < 0)
 	{
 		printf("Something went wrong with opening the file\n");

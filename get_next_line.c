@@ -6,7 +6,7 @@
 /*   By: ahorling <ahorling@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2021/05/04 14:22:06 by ahorling      #+#    #+#                 */
-/*   Updated: 2021/05/18 11:17:17 by ahorling      ########   odam.nl         */
+/*   Updated: 2022/09/23 17:17:03 by ahorling      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ static char	*edit_buffer(char *buffer)
 {
 	size_t	i;
 	size_t	j;
+	size_t	len;
 
 	i = 0;
 	j = 0;
@@ -140,7 +141,8 @@ static char	*edit_buffer(char *buffer)
 		i++;
 	if (buffer[i] != '\0')
 		i++;
-	while (buffer[i] != '\0' && i < ft_strlen(buffer))
+	len = ft_strlen(buffer);
+	while (buffer[i] != '\0' && i < len)
 	{
 		buffer[j] = buffer[i];
 		i++;
